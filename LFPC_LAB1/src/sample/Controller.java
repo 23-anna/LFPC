@@ -49,6 +49,12 @@ public class Controller {
     @FXML
     void initialize() {
 
+//      Variant 16
+//      This is the grammar of type 3 - a right-linear Regular Grammar
+        
+//      **************************************************************
+//      Definition of the Non-terminal symbols
+        
         ArrayList<String> vn = new ArrayList<>();
 
         vn.add("S");
@@ -56,6 +62,9 @@ public class Controller {
         vn.add("B");
         vn.add("End");
 
+//      **************************************************************
+//      Creation of the Finite Automaton
+        
         Graph FA = new Graph();
 
         FA.addNode(vn.get(0));
@@ -71,9 +80,12 @@ public class Controller {
         FA.addEdge(vn.indexOf("B"), vn.indexOf("B"), 'c');
         FA.addEdge(vn.indexOf("B"), vn.indexOf("End"), 'a');
 
+//      **************************************************************
+//      Interaction with the Check button:
+        
         checkButton.setOnAction(event -> {
 
-            String word = wordField.getText();
+            String word = wordField.getText(); // get string
 
             resultField.clear();
 
@@ -82,6 +94,8 @@ public class Controller {
             int m = 0;
             int k = 0;
 
+//          checking if the string belongs to the given grammar
+            
             breakpoint:
             for (int i = 0; i < word.length(); i++){
 
@@ -89,13 +103,13 @@ public class Controller {
                     if (word.charAt(i) == FA.matrix[n][m]){
                         resultField.insertText(resultField.getLength(), "Node " + FA.nodes.get(j).name + " -> " + word.charAt(i) + " -> " + " Node " + FA.nodes.get(m).name + "\n");
 
-                        if ((m == vn.size()-1)&&(i < word.length()-1)){
+                        if ((m == vn.size()-1)&&(i < word.length()-1)){  // condition 1: there are left no symbols in the word after the End node has been reached
                             resultField.insertText(resultField.getLength(), "Node " + FA.nodes.get(m).name + " -> " + word.charAt(i+1) + " -> " + " ?\n");
                             resultField.insertText(resultField.getLength(), "The End node has been already reached\n");
                             break breakpoint;
                         }
 
-                        if ((i == word.length()-1)&&(!FA.nodes.get(m).name.equals("End"))){
+                        if ((i == word.length()-1)&&(!FA.nodes.get(m).name.equals("End"))){ // condition 2: the word should end with the End node
                             resultField.insertText(resultField.getLength(), "The End node has not been reached\n");
                             break breakpoint;
                         }
@@ -105,7 +119,7 @@ public class Controller {
                         k++;
                         break;
                     }
-                    if ((word.charAt(i) != FA.matrix[n][m])&&(m == vn.size()-1)){
+                    if ((word.charAt(i) != FA.matrix[n][m])&&(m == vn.size()-1)){ //condition 3: after the certain node doesn't follow the unknown edge symbol
                         resultField.insertText(resultField.getLength(), "Node " + FA.nodes.get(j).name + " -> " + word.charAt(i) + " -> " + " ?\n");
                         resultField.insertText(resultField.getLength(), "The End node has not been reached\n");
                         break breakpoint;
