@@ -1,0 +1,57 @@
+Grammar:
+
+S -> abAB
+A -> aSab | BS | aA | b
+B -> BA | ababB | b | e
+C -> AS
+
+after removing epsilon:
+
+S -> abAB | abA
+A -> aSab | BS | aA | b | S
+B -> BA | ababB | b | A | abab
+C -> AS
+
+after removing any renaming
+
+S -> abAB | abA
+A -> aSab | BS | aA | b | abAB | abA
+B -> BA | ababB | b | aSab | BS | aA | abAB | abA | abab
+C -> AS
+
+after removing the inaccessible symbols
+
+S -> abAB | abA
+A -> aSab | BS | aA | b | abAB | abA
+B -> BA | ababB | b | aSab | BS | aA | abAB | abA | abab
+
+after removing the non productive symbols
+
+S -> X1X2AB | X1X2A
+A -> X1SX1X2 | BS | X1A | b | X1X2AB | X1X2A
+B -> BA | X1X2X1X2B | b | X1SX1X2 | BS | X1A | X1X2AB | X1X2A | X1X2X1X2
+X1 -> a
+X2 -> b
+
+THE ANSWER:
+S -> X1Y1 | X1Y2
+A -> X1Y3 | BS | X1A | b | X1Y1 | X1Y2
+B -> BA | X1Y4 | b | X1Y3 | BS | X1A | X1Y1 | X1Y2 | X1Y5
+X1 -> a
+X2 -> b
+Y1 -> X2Y6
+Y2 -> X2A
+Y3 -> SY7
+Y4 -> X2Y8
+Y5 -> X2Y7
+Y6 -> AB
+Y7 -> X1X2
+Y8 -> X1Y9
+Y9 -> X2B
+
+
+
+
+
+
+
